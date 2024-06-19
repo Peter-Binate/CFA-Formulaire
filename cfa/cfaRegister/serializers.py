@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CfaUser
+from .models import CfaUser, 
 
 class CfaUserSerializer(serializers.ModelSerializer):
     # Champ pour la confirmation du mot de passe
