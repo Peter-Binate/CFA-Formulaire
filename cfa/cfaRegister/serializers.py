@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import CfaUser, 
+from .models import CfaUser, sendStudentInvitation
+import datetime
 
 class CfaUserSerializer(serializers.ModelSerializer):
     # Champ pour la confirmation du mot de passe
@@ -37,3 +38,28 @@ class CfaUserSerializer(serializers.ModelSerializer):
         user = CfaUser.objects.create_user(**validated_data)
 
         return user 
+
+class sendStudentInvitationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = sendStudentInvitation
+        fields = ['email', 'lastname', 'firstname']
+
+class StudentRegisterSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(write_only=True)
+    social_security_number = serializers.CharField()
+    birthdate = serializers.DateField()
+    address = serializers.CharField()
+
+    class Meta:
+        model = sendStudentInvitation
+        fields = ['token', 'social_security_number', 'birthdate', 'address']
+
+    def validate_social_security_number(self, value):
+        if not value.isdigit() or len(value) != 15 or value[0] not in ['1', '2']:
+            raise serializers.ValidationError("Le numéro de sécurité sociale doit être unique et commencer par 1 ou 2.")
+        return value
+
+    def validate_birthdate(self, value):
+        if value.year < 1900 or value > datetime.date.today():
+            raise serializers.ValidationError("La date de naissance doit être valide et comprise entre 1900 et la date actuelle.")
+        return value
