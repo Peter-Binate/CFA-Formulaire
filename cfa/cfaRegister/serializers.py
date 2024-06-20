@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CfaUser, 
+from .models import CfaUser, sendStudentInvitation
 
 class CfaUserSerializer(serializers.ModelSerializer):
     # Champ pour la confirmation du mot de passe
@@ -37,3 +37,8 @@ class CfaUserSerializer(serializers.ModelSerializer):
         user = CfaUser.objects.create_user(**validated_data)
 
         return user 
+
+class sendStudentInvitationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = sendStudentInvitation
+        fields = ['email', 'lastname', 'firstname']

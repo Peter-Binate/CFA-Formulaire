@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
     #On crée une méthode pour créer un utilisateur standard
@@ -38,3 +40,21 @@ class CfaUser(AbstractBaseUser):
     # On affiche l'utilisateur sous forme de chaîne de caractères
     def __str__(self):
         return self.email
+    
+# On récupére le modèle utilisateur actuellement utilisé
+User = get_user_model()
+
+class sendStudentInvitation(models.Model):
+    # On génére un token unique pour l'invitation
+    token = models.CharField(max_length=255, unique=True)
+    # L'invitation est liée à un CFA
+    cfa = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField()
+    lastname = models.CharField(max_length=255)
+    firstname = models.CharField(max_length=255)
+    created_at = models.DateTimeField(default=timezone.now)
+    invitation_accepted = models.BooleanField(default=False)
+
+    # Représentation de l'invitation en chaîne de caractères
+    def __str__(self):
+        return f"Invitation pour {self.email} de {self.cfa.email}"
