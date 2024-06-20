@@ -223,8 +223,3 @@ Votre application sera disponible à l'adresse `http://127.0.0.1:8000`.
 ## Projet réaliser par Peter Binate
 
 
-Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
-
----
-
-Ce README fournit une vue d'ensemble complète de la configuration, de l'installation et de l'utilisation du projet de gestion des étudiants pour les CFA. Si vous avez des questions ou des problèmes, n'hésitez pas à ouvrir une issue sur Github.
