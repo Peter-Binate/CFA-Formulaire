@@ -54,6 +54,9 @@ class sendStudentInvitation(models.Model):
     firstname = models.CharField(max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
     invitation_accepted = models.BooleanField(default=False)
+    social_security_number = models.CharField(max_length=15, blank=True, null=True)
+    birthdate = models.DateField(blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
 
     # Représentation de l'invitation en chaîne de caractères
     def __str__(self):

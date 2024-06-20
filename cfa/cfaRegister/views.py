@@ -5,9 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
+
 import uuid
 from .models import CfaUser, sendStudentInvitation
-from .serializers import CfaUserSerializer, sendStudentInvitationSerializer
+from .serializers import CfaUserSerializer, sendStudentInvitationSerializer, StudentRegisterSerializer
 
 # Importation du module pour la génération de tokens JWT
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -80,3 +82,22 @@ class InvitationViewSet(viewsets.ViewSet):
             # Retourner le token dans la réponse 
             return Response({"token": token}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class StudentRegisterView(APIView):
+    # On désactive l'authentification pour cette View
+    permission_classes = [AllowAny] 
+    def post(self, request, *args, **kwargs):
+        serializer = StudentRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            token = serializer.validated_data['token']
+            try:
+                invitation = sendStudentInvitation.objects.get(token=token, invitation_accepted=False)
+                invitation.social_security_number = serializer.validated_data['social_security_number']
+                invitation.birthdate = serializer.validated_data['birthdate']
+                invitation.address = serializer.validated_data['address']
+                invitation.invitation_accepted = True
+                invitation.save()
+                return Response({"Inscription réussi!"}, status=status.HTTP_200_OK)
+            except sendStudentInvitation.DoesNotExist:
+                return Response({"Erreur lors de l'inscription ou token expiré"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
