@@ -218,15 +218,10 @@ docker-compose up
 
 Votre application sera disponible à l'adresse `http://127.0.0.1:8000`.
 
-## Contribuer
 
-1. Forkez le projet.
-2. Créez votre branche feature (`git checkout -b feature/AmazingFeature`).
-3. Commitez vos modifications (`git commit -m 'Add some AmazingFeature'`).
-4. Poussez votre branche (`git push origin feature/AmazingFeature`).
-5. Ouvrez une Pull Request.
 
-## License
+## Projet réaliser par Peter Binate
+
 
 Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
 
