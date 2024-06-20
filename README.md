@@ -221,5 +221,7 @@ Votre application sera disponible à l'adresse `http://127.0.0.1:8000`.
 
 
 ## Projet réaliser par Peter Binate
+## Contact 
+Si vous souhaitez me contacter, vous pouvez m'envoyer un email à [peter.binatel@gmail.com](mailto:peter.binatel@gmail.com).
 
 
